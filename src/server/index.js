@@ -16,22 +16,32 @@ export default function() {
       return '<li>' + t.direction + ' ' + t.threshold + ' (<a href="/delete?id='+ t._id +'">Delete</a>)';
     }
 
+    const generateForm = () => {
+      return `<form action="/add" method="GET">
+                <select name="direction">
+                  <option>rise</option>
+                  <option>fall</option>
+                </select><br/>
+                <input type="number" name="threshold"><br/>
+                <input type="submit">
+              </form>`;
+    }
+
     let thresholds = await repo.get();
-    res.send('<ul>' + thresholds.reduce((acc,t) => acc + generateLi(t), '') + '</ul>');
+    res.send(generateForm() + '<h3>List</h3><ul>' + thresholds.reduce((acc,t) => acc + generateLi(t), '') + '</ul>');
   });
 
   /**
    * Threshold adding route
    */
-  app.get('/add', (req, res) => {
+  app.get('/add', async (req, res) => {
     let direction = req.query.direction;
     let threshold = req.query.threshold;
 
-    if(direction && threshold) {
-      repo.add(direction, threshold);
-      res.send('ok');
+    if(direction && threshold && await repo.add(direction, threshold)) {
+      res.redirect('/');
     } else {
-      res.send('nok');
+      res.send('Error while adding a threshold');
     }
   });
 
@@ -44,7 +54,7 @@ export default function() {
     if(id && await repo.delete(id))
       return res.redirect('/');
 
-    res.send('Error while deleting the threshold...');
+    res.send('Error while deleting a threshold');
   })
 
   // Starts the server

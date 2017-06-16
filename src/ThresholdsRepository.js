@@ -24,9 +24,17 @@ class ThresholdsRepository {
    */
   add(direction, threshold) {
     let collection = this.db.collection('thresholds');
-    collection.insert({
-      direction,
-      threshold,
+
+    return new Promise((resolve, reject) => {
+      collection.insert({
+        direction,
+        threshold,
+      }, (err, res) => {
+        if(err)
+          reject(err);
+        else
+          resolve(res.result.n > 0);
+      });
     });
   }
 
