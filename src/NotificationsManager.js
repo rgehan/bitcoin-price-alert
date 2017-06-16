@@ -2,6 +2,7 @@
 
 import { PushedAPI } from './api';
 import config from './config';
+import ThresholdsRepository from './ThresholdsRepository';
 
 class NotificationsManager {
 
@@ -10,7 +11,7 @@ class NotificationsManager {
    */
   constructor() {
     // The list of the threshold we can cross
-    this.thresholds = [];
+    this.thresholdsRepo = ThresholdsRepository;
 
     // Last notification times for the different events
     this.lastNotification = {rise: 0, fall: 0};
@@ -23,20 +24,12 @@ class NotificationsManager {
   }
 
   /**
-   * Add a threshold to the list
-   */
-  addThreshold(direction, threshold) {
-    this.thresholds.push({
-      direction,
-      threshold
-    });
-  }
-
-  /**
    * On price change, check if a threshold is crossed
    */
-  handlePriceChange(current, delta) {
-    this.thresholds.forEach(({direction, threshold}) => {
+  async handlePriceChange(current, delta) {
+    let thresholds = await this.thresholdsRepo.get();
+
+    thresholds.forEach(({direction, threshold}) => {
       if(this.thresholdCrossed(direction, threshold, delta, current))
         this.attemptNotify(direction, threshold, current);
     });

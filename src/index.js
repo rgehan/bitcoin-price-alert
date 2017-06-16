@@ -3,14 +3,15 @@
 import { PricesAPI } from './api';
 import NotificationsManager from './NotificationsManager';
 import config from './config';
+import server from './server';
+
+server();
 
 // Build the Prices API
 const api = new PricesAPI;
 
 // Build the notification manager
 const notifications = new NotificationsManager;
-notifications.addThreshold('rise', 2517);
-notifications.addThreshold('fall', 2500);
 
 // Handle a price change
 async function onPriceUpdate(){
