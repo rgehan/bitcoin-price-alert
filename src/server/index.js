@@ -8,10 +8,9 @@ import repo from '../ThresholdsRepository';
 export default function() {
   const app = express();
 
-  app.use(bodyParser.urlencoded({
-    extended: true,
-  }));
-
+  /**
+   * Thresholds listing route
+   */
   app.get('/', async (req, res) => {
     const generateLi = t => {
       return '<li>' + t.direction + ' ' + t.threshold + ' (<a href="/delete?id='+ t._id +'">Delete</a>)';
@@ -21,6 +20,9 @@ export default function() {
     res.send('<ul>' + thresholds.reduce((acc,t) => acc + generateLi(t), '') + '</ul>');
   });
 
+  /**
+   * Threshold adding route
+   */
   app.get('/add', (req, res) => {
     let direction = req.query.direction;
     let threshold = req.query.threshold;
@@ -33,6 +35,9 @@ export default function() {
     }
   });
 
+  /**
+   * Threshold deletion route
+   */
   app.get('/delete', async (req, res) => {
     let id = req.query.id;
 
@@ -42,5 +47,6 @@ export default function() {
     res.send('Error while deleting the threshold...');
   })
 
+  // Starts the server
   app.listen(3000);
 }
