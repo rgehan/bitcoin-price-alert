@@ -12,9 +12,9 @@ const notifications = new NotificationsManager;
 notifications.addThreshold('rise', 2517);
 notifications.addThreshold('fall', 2500);
 
-// Triggers the logic every x second
-setInterval(() => {
-  api.refresh();
+// Handle a price change
+async function onPriceUpdate(){
+  await api.refresh();
 
   let price = api.getCurrent();
   let delta = api.getDelta();
@@ -22,4 +22,7 @@ setInterval(() => {
   console.log('Price:', price);
 
   notifications.handlePriceChange(price, delta);
-}, config.refresh_delay);
+}
+
+// Triggers the logic every x second
+setInterval(onPriceUpdate, config.refresh_delay);
