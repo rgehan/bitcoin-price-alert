@@ -5,7 +5,7 @@ import pug from 'pug';
 import path from 'path';
 import chalk from 'chalk';
 
-import repo from '../ThresholdsRepository';
+import repo from '../AlertsRepository';
 
 let price;
 let exchange;

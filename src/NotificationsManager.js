@@ -2,7 +2,7 @@
 
 import { PushedAPI } from './api';
 import config from './config';
-import ThresholdsRepository from './ThresholdsRepository';
+import AlertsRepository from './AlertsRepository';
 
 class NotificationsManager {
 
@@ -11,7 +11,7 @@ class NotificationsManager {
    */
   constructor() {
     // The list of the threshold we can cross
-    this.thresholdsRepo = ThresholdsRepository;
+    this.thresholdsRepo = AlertsRepository;
 
     // Build the Pusher API
     this.api = new PushedAPI({

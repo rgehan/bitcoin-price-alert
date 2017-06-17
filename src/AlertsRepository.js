@@ -1,4 +1,4 @@
-// ThresholdsRepository.js
+// AlertsRepository.js
 
 import { MongoClient, ObjectId } from 'mongodb';
 import chalk from 'chalk';
@@ -8,7 +8,7 @@ import chalk from 'chalk';
  * It is used by the price watcher, to trigger push notifications, as well
  * as by the Express server, when the user attempts adding a new threshold.
  */
-class ThresholdsRepository {
+class AlertsRepository {
   constructor() {
     // Connection to the mongodb database
     let url = 'mongodb://localhost:27017/bitcoin-tracker';
@@ -24,11 +24,11 @@ class ThresholdsRepository {
   }
 
   /**
-   * Insert a threshold into the collection
+   * Insert an alert into the collection
    */
   add(direction, threshold) {
     return new Promise((resolve, reject) => {
-      this.db.collection('thresholds').insert({
+      this.db.collection('alerts').insert({
         direction,
         threshold,
         notified: false,
@@ -43,11 +43,11 @@ class ThresholdsRepository {
   }
 
   /**
-   * Delete a threshold by id
+   * Delete an alert by id
    */
   remove(id) {
     return new Promise((resolve, reject) => {
-      this.db.collection('thresholds').deleteOne({ _id: ObjectId(id) }, (err, res) => {
+      this.db.collection('alerts').deleteOne({ _id: ObjectId(id) }, (err, res) => {
         if(err)
           reject(err);
         else
@@ -57,11 +57,11 @@ class ThresholdsRepository {
   }
 
   /**
-   * Mark a threshold as notified
+   * Mark an alert as notified
    */
   markNotified(id) {
     return new Promise((resolve, reject) => {
-      this.db.collection('thresholds').update({
+      this.db.collection('alerts').update({
         _id: ObjectId(id)
       }, {
         $set: {
@@ -78,11 +78,11 @@ class ThresholdsRepository {
   }
 
   /**
-   * Return all the thresholds
+   * Return all the alerts
    */
   async getAll() {
     return new Promise((resolve, reject) => {
-      this.db.collection('thresholds').find({}).toArray((err, docs) => {
+      this.db.collection('alerts').find({}).toArray((err, docs) => {
         if(err)
           reject(err);
         else
@@ -92,11 +92,11 @@ class ThresholdsRepository {
   }
 
   /**
-   * Return all the active (not notified) thresholds
+   * Return all the active (not notified) alerts
    */
   async getActive() {
     return new Promise((resolve, reject) => {
-      this.db.collection('thresholds').find({ notified: false }).toArray((err, docs) => {
+      this.db.collection('alerts').find({ notified: false }).toArray((err, docs) => {
         if(err)
           reject(err);
         else
@@ -106,11 +106,11 @@ class ThresholdsRepository {
   }
 
   /**
-   * Clear the thresholds that were already notified
+   * Clear the alerts that were already notified
    */
   async clearNotified() {
     return new Promise((resolve, reject) => {
-      this.db.collection('thresholds').deleteOne({ notified: true }, (err, res) => {
+      this.db.collection('alerts').deleteOne({ notified: true }, (err, res) => {
         if(err)
           reject(err);
         else
@@ -120,11 +120,11 @@ class ThresholdsRepository {
   }
 
   /**
-   * Clear the thresholds that were already notified
+   * Clear the alerts
    */
   async clearAll() {
     return new Promise((resolve, reject) => {
-      this.db.collection('thresholds').deleteMany({}, (err, res) => {
+      this.db.collection('alerts').deleteMany({}, (err, res) => {
         if(err)
           reject(err);
         else
@@ -134,4 +134,4 @@ class ThresholdsRepository {
   }
 }
 
-export default new ThresholdsRepository;
+export default new AlertsRepository;
