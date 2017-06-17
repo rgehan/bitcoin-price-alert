@@ -23,6 +23,15 @@ npm start # or yarn start
 # The server is normally listening on port 3000
 ```
 
+## Pushed API setup
+In order to be able to send notifications, you have to apply for a [Pushed API developper access](https://pushed.co/for-developers).
+
+Create an app, get your app key and your app secret and create your `.env` file:
+```bash
+  echo "PUSHED_KEY=[your key]" >> .env;
+  echo "PUSHED_SECRET=[your secret]" >> .env;
+```
+
 ## Todo
 
 * Make everything configurable
