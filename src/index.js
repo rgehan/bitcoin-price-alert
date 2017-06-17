@@ -3,7 +3,7 @@
 import { PricesAPI } from './api';
 import NotificationsManager from './NotificationsManager';
 import config from './config';
-import server from './server';
+import server, { setPrice } from './server';
 
 server();
 
@@ -21,6 +21,7 @@ async function onPriceUpdate(){
   let delta = api.getDelta();
 
   console.log('Price:', price);
+  setPrice(price);
 
   notifications.handlePriceChange(price, delta);
 }

@@ -13,9 +13,6 @@ class NotificationsManager {
     // The list of the threshold we can cross
     this.thresholdsRepo = ThresholdsRepository;
 
-    // Last notification times for the different events
-    this.lastNotification = {rise: 0, fall: 0};
-
     // Build the Pusher API
     this.api = new PushedAPI({
       key: config.pushed.key,
@@ -27,11 +24,15 @@ class NotificationsManager {
    * On price change, check if a threshold is crossed
    */
   async handlePriceChange(current, delta) {
-    let thresholds = await this.thresholdsRepo.get();
+    let thresholds = await this.thresholdsRepo.getActive();
 
-    thresholds.forEach(({direction, threshold}) => {
-      if(this.thresholdCrossed(direction, threshold, delta, current))
-        this.attemptNotify(direction, threshold, current);
+    console.log("Handling: " + thresholds.length);
+
+    thresholds.forEach(({_id, direction, threshold }) => {
+      if(this.thresholdCrossed(direction, threshold, delta, current)) {
+        this.notify(direction, threshold, current);
+        this.thresholdsRepo.markNotified(_id);
+      }
     });
   }
 
@@ -46,14 +47,8 @@ class NotificationsManager {
   /**
    * Attempts to notify the user
    */
-  attemptNotify(direction, threshold, current) {
-    let delta = +(new Date) - this.lastNotification[direction];
-
-    // If enough time has passed, notify
-    if(delta > config.delay_between_same_notification) {
-      this.api.send(this.buildEventMessage(direction, threshold, current));
-      this.lastNotification[direction] = +(new Date);
-    }
+  notify(direction, threshold, current) {
+    this.api.send(this.buildEventMessage(direction, threshold, current));
   }
 
   /**

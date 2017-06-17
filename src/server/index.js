@@ -1,34 +1,28 @@
 // server/index.js
 
 import express from 'express';
-import bodyParser from 'body-parser';
+import pug from 'pug';
+import path from 'path';
 
 import repo from '../ThresholdsRepository';
 
+let price = undefined;
+export function setPrice(p) {
+  price = p;
+};
+
 export default function() {
   const app = express();
+
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, '/views'));
 
   /**
    * Thresholds listing route
    */
   app.get('/', async (req, res) => {
-    const generateLi = t => {
-      return '<li>' + t.direction + ' ' + t.threshold + ' (<a href="/delete?id='+ t._id +'">Delete</a>)';
-    }
-
-    const generateForm = () => {
-      return `<form action="/add" method="GET">
-                <select name="direction">
-                  <option>rise</option>
-                  <option>fall</option>
-                </select><br/>
-                <input type="number" name="threshold"><br/>
-                <input type="submit">
-              </form>`;
-    }
-
-    let thresholds = await repo.get();
-    res.send(generateForm() + '<h3>List</h3><ul>' + thresholds.reduce((acc,t) => acc + generateLi(t), '') + '</ul>');
+    let thresholds = await repo.getAll();
+    res.render('thresholds', { thresholds: thresholds, price: price });
   });
 
   /**
@@ -48,14 +42,18 @@ export default function() {
   /**
    * Threshold deletion route
    */
-  app.get('/delete', async (req, res) => {
+  app.get('/remove', async (req, res) => {
     let id = req.query.id;
 
-    if(id && await repo.delete(id))
+    if(id && await repo.remove(id))
       return res.redirect('/');
 
     res.send('Error while deleting a threshold');
-  })
+  });
+
+  app.get('/clear', async (req, res) => {
+    repo.clearNotified();
+  });
 
   // Starts the server
   app.listen(3000);
