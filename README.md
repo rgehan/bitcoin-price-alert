@@ -13,14 +13,6 @@ cd bitcoin-price-alert/
 
 # Install dependencies
 npm install # or yarn install
-
-# Start the mongodb database
-npm run mongo # or yarn mongo
-
-# Start the application
-npm start # or yarn start
-
-# The server is normally listening on port 3000
 ```
 
 ## Pushed API setup
@@ -30,6 +22,18 @@ Create an app, get your app key and your app secret and create your `.env` file:
 ```bash
   echo "PUSHED_KEY=[your key]" >> .env;
   echo "PUSHED_SECRET=[your secret]" >> .env;
+```
+
+## Usage
+
+```bash
+# Start the mongodb database
+npm run mongo # or yarn mongo
+
+# Start the application
+npm start # or yarn start
+
+# The server is normally listening on port 3000
 ```
 
 ## Todo
