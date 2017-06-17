@@ -15,6 +15,12 @@ html
           color: green;
         }
         
+        .price .small
+        {
+          font-size: 0.85em;
+          margin-top: 10px;
+        }
+        
       script(src="/public/refresh-price.js")
   body
     .container
@@ -25,5 +31,7 @@ html
         div.text-center  
           h1.price
             span#price-container $#{price}
+            br
+            span.small!= exchange
         
         block content

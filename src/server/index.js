@@ -7,9 +7,11 @@ import chalk from 'chalk';
 
 import repo from '../ThresholdsRepository';
 
-let price = undefined;
-export function setPrice(p) {
+let price;
+let exchange;
+export function setPrice(p, e) {
   price = p;
+  exchange = e;
 };
 
 export default function() {
@@ -25,7 +27,7 @@ export default function() {
    */
   app.get('/', async (req, res) => {
     let thresholds = await repo.getAll();
-    res.render('thresholds', { thresholds: thresholds, price: price });
+    res.render('thresholds', { thresholds, price, exchange });
   });
 
   /**

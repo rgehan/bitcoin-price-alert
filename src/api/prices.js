@@ -3,14 +3,16 @@
 import cc from 'cryptocompare';
 
 class PricesAPI {
-  constructor() {
+  constructor(exchange) {
     this.current = undefined;
     this.previous = undefined;
+
+    this.exchange = exchange;
   }
 
   // Fetch from the prices from the API and update the object
   async refresh() {
-    let data = await cc.price('BTC', 'USD');
+    let data = await cc.price('BTC', 'USD', { exchanges: this.exchange });
     this.updateValue(data.USD);
   }
 
@@ -28,6 +30,11 @@ class PricesAPI {
   // Return the delta
   getDelta() {
     return this.current - this.previous;
+  }
+
+  // Return the exchange
+  getExchange() {
+    return this.exchange;
   }
 }
 

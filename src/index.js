@@ -8,7 +8,7 @@ import server, { setPrice } from './server';
 server();
 
 // Build the Prices API
-const api = new PricesAPI;
+const api = new PricesAPI('Bitstamp');
 
 // Build the notification manager
 const notifications = new NotificationsManager;
@@ -20,11 +20,13 @@ async function onPriceUpdate(){
   let price = api.getCurrent();
   let delta = api.getDelta();
 
-  // console.log('Price:', price);
-  setPrice(price);
+  setPrice(price, api.getExchange());
 
   notifications.handlePriceChange(price, delta);
+
+  // Re-trigger the method in x second
+  setTimeout(onPriceUpdate, config.refresh_delay);
 }
 
-// Triggers the logic every x second
-setInterval(onPriceUpdate, config.refresh_delay);
+// Starts the refresh loop
+onPriceUpdate();
