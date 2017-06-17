@@ -26,7 +26,7 @@ class NotificationsManager {
   async handlePriceChange(current, delta) {
     let thresholds = await this.thresholdsRepo.getActive();
 
-    console.log("Handling: " + thresholds.length);
+    // console.log("Handling: " + thresholds.length);
 
     thresholds.forEach(({_id, direction, threshold }) => {
       if(this.thresholdCrossed(direction, threshold, delta, current)) {

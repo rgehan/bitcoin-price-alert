@@ -1,7 +1,7 @@
 // ThresholdsRepository.js
 
 import { MongoClient, ObjectId } from 'mongodb';
-import assert from 'assert';
+import chalk from 'chalk';
 
 /**
  * Serve as an interface between the database and the rest of the code.
@@ -14,11 +14,11 @@ class ThresholdsRepository {
     let url = 'mongodb://localhost:27017/bitcoin-tracker';
     MongoClient.connect(url, (err, db) => {
       if(err) {
-        console.error("[ERROR] Unable to connect to MongoDB");
+        console.error(chalk.red("Unable to connect to MongoDB"));
         process.exit(1);
       }
 
-      console.log('Connected to MongoDB.');
+      console.log(chalk.green('Alerts repo connected to MongoDB'));
       this.db = db;
     })
   }

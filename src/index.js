@@ -20,7 +20,7 @@ async function onPriceUpdate(){
   let price = api.getCurrent();
   let delta = api.getDelta();
 
-  console.log('Price:', price);
+  // console.log('Price:', price);
   setPrice(price);
 
   notifications.handlePriceChange(price, delta);
