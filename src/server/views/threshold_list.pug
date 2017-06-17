@@ -7,5 +7,5 @@ table.table.table-striped
   each t in thresholds
     tr
       td!= t.direction
-      td!= t.threshold
+      td  $#{t.threshold}
       td!= t.date_notified
