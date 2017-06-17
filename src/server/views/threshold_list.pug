@@ -1,4 +1,4 @@
-h3 Existing thresholds
+h3 Existing alerts
 table.table.table-striped
   tr
     th Direction
@@ -12,3 +12,6 @@ table.table.table-striped
       td!= t.date_notified
       td
         a(href="/remove?id=" + t._id) Remove
+
+.text-center
+  a.btn.btn-danger(href='/clear') Clear inactive alerts
