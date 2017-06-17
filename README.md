@@ -4,6 +4,16 @@ This is a simple tool allowing the user to register alerts for a certain BTC pri
 
 Pushed is a service allowing you to push notifications to a user phones on the Pushed app. It is particularly useful for such use cases, where you don't want to code a specific application.
 
+## Dependencies
+You need to install mongodb for this to work.
+
+On mac:
+```bash
+brew install mongodb
+```
+
+On other platforms (or if you don't use brew), please refer to the [MongoDB documentation](https://docs.mongodb.com/manual/installation/)
+
 ## Installation
 
 ```bash
