@@ -6,6 +6,7 @@ import path from 'path';
 import chalk from 'chalk';
 
 import repo from '../AlertsRepository';
+import notifications from '../NotificationsManager';
 
 let price;
 let exchange;
@@ -75,6 +76,11 @@ export default function() {
 
   app.get('/price', (req, res) => {
     res.send(JSON.stringify(price));
+  });
+
+  app.get('/test-push', (req, res) => {
+    notifications.rawSend('This is a test notification');
+    res.redirect('/');
   });
 
   // Starts the server

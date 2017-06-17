@@ -21,11 +21,19 @@ html
           margin-top: 10px;
         }
         
+        .spacer
+        {
+          display: inline-block;
+          width: 15px;
+        }
+        
       script(src="/public/refresh-price.js")
   body
     .container
       .col-md-8.col-md-offset-2
         h1 Bitcoin prices notifier
+          span.spacer
+          a.btn.btn-default(href="/test-push") Test push
         hr
         
         div.text-center  

@@ -48,7 +48,14 @@ class NotificationsManager {
    * Attempts to notify the user
    */
   notify(direction, threshold, current) {
-    this.api.send(this.buildEventMessage(direction, threshold, current));
+    this.rawSend(this.buildEventMessage(direction, threshold, current));
+  }
+
+  /**
+   * Sends a string via Pushed
+   */
+  rawSend(msg) {
+    this.api.send(msg);
   }
 
   /**
@@ -62,4 +69,4 @@ class NotificationsManager {
   }
 }
 
-export default NotificationsManager;
+export default new NotificationsManager;

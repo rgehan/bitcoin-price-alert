@@ -15,7 +15,7 @@ server();
 const api = new PricesAPI('Bitstamp');
 
 // Build the notification manager
-const notifications = new NotificationsManager;
+const notifications = NotificationsManager;
 
 // Handle a price change
 async function onPriceUpdate(){
