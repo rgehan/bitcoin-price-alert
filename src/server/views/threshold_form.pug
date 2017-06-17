@@ -1,8 +1,15 @@
+h3 Add a threshold
+
 form(action="/add" method="GET")
-  select(name="direction")
-    option rise
-    option fall
+  label.control-label(for="direction") Direction: 
+  select.form-control(name="direction" id="direction")
+    option(value='rise') When price rise above ...
+    option(value='fall') When price fall bellow ...
   br
-  input(type="number" name="threshold")
+  
+  label.control-label(for="threshold") Threshold value:
+  input.form-control(type="text" name="threshold" id="threshold" value=price)
   br
-  input(type="submit")
+  
+  .text-center
+    input.btn.btn-primary(type="submit")

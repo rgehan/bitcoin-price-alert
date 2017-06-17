@@ -14,6 +14,8 @@ export function setPrice(p) {
 export default function() {
   const app = express();
 
+app.use('/public', express.static(path.join(__dirname, '/public')));
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '/views'));
 
@@ -53,6 +55,10 @@ app.set('views', path.join(__dirname, '/views'));
 
   app.get('/clear', async (req, res) => {
     repo.clearNotified();
+  });
+
+  app.get('/price', (req, res) => {
+    res.send(JSON.stringify(price));
   });
 
   // Starts the server

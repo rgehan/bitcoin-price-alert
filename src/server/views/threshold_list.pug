@@ -1,0 +1,11 @@
+h3 Existing thresholds
+table.table.table-striped
+  tr
+    th Direction
+    th Threshold value
+    th Notified when?
+  each t in thresholds
+    tr
+      td!= t.direction
+      td!= t.threshold
+      td!= t.date_notified

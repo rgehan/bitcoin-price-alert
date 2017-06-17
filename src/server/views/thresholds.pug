@@ -2,7 +2,4 @@ extends layout.pug
 
 block content
   include threshold_form.pug
-  h1 Existing thresholds
-  ul
-    each t in thresholds
-      li #{t.direction} #{t.threshold} #{t.notified ? '(notified on '+ t.date_notified +')' : ''}
+  include threshold_list.pug

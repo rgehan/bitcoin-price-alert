@@ -1,7 +1,29 @@
 html
   head
     title Bitcoin prices notifier
+    block css
+      link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+      link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans")
+      style(type='text/css').
+        body
+        {
+          font-family: "Open Sans", sans-serif;
+        }
+        
+        .price
+        {
+          color: green;
+        }
+        
+      script(src="/public/refresh-price.js")
   body
-    h1 Bitcoin prices notifier
-    h3 Current price $#{price}
-    block content
+    .container
+      .col-md-8.col-md-offset-2
+        h1 Bitcoin prices notifier
+        hr
+        
+        div.text-center  
+          h1.price
+            span#price-container $#{price}
+        
+        block content
