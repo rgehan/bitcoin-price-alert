@@ -60,8 +60,17 @@ export default function() {
   });
 
   app.get('/clear', async (req, res) => {
-    repo.clearNotified();
-    console.log(chalk.green(`Cleared all expired alerts`));
+    const has = param => req.query.hasOwnProperty(param);
+
+    if(has('inactive')) {
+      repo.clearNotified();
+      console.log(chalk.green(`Cleared all expired alerts`));
+    } else if(has('all')) {
+      repo.clearAll();
+      console.log(chalk.green('Cleared all alerts'));
+    }
+
+    res.redirect('/');
   });
 
   app.get('/price', (req, res) => {

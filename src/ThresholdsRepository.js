@@ -118,6 +118,20 @@ class ThresholdsRepository {
       });
     });
   }
+
+  /**
+   * Clear the thresholds that were already notified
+   */
+  async clearAll() {
+    return new Promise((resolve, reject) => {
+      this.db.collection('thresholds').deleteMany({}, (err, res) => {
+        if(err)
+          reject(err);
+        else
+          resolve(res.result.n);
+      });
+    });
+  }
 }
 
 export default new ThresholdsRepository;

@@ -5,6 +5,10 @@ import NotificationsManager from './NotificationsManager';
 import config from './config';
 import server, { setPrice } from './server';
 
+/**
+ * Launch the server allowing the user to add alerts and
+ * watch the price.
+ */
 server();
 
 // Build the Prices API

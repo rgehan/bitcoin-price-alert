@@ -14,4 +14,6 @@ table.table.table-striped
         a(href="/remove?id=" + t._id) Remove
 
 .text-center
-  a.btn.btn-danger(href='/clear') Clear inactive alerts
+  a.btn.btn-warning(href='/clear?inactive') Clear inactive
+  span &nbsp;
+  a.btn.btn-danger(href='/clear?all') Clear all
