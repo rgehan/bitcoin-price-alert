@@ -4,8 +4,11 @@ table.table.table-striped
     th Direction
     th Threshold value
     th Notified when?
+    th
   each t in thresholds
     tr
       td!= t.direction
       td  $#{t.threshold}
       td!= t.date_notified
+      td
+        a(href="/remove?id=" + t._id) Remove
