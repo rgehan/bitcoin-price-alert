@@ -3,6 +3,8 @@
 import { MongoClient, ObjectId } from 'mongodb';
 import chalk from 'chalk';
 
+import config from './config';
+
 /**
  * Serve as an interface between the database and the rest of the code.
  * It is used by the price watcher, to trigger push notifications, as well
@@ -11,7 +13,7 @@ import chalk from 'chalk';
 class AlertsRepository {
   constructor() {
     // Connection to the mongodb database
-    let url = 'mongodb://localhost:27017/bitcoin-tracker';
+    let url = `mongodb://localhost:${config.mongo_port}/bitcoin-tracker`;
     MongoClient.connect(url, (err, db) => {
       if(err) {
         console.error(chalk.red("Unable to connect to MongoDB"));

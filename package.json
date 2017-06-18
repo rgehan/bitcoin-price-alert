@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist/ && babel src/ --out-dir dist/ --copy-files",
     "start": "npm run build && node dist/index.js",
-    "mongo": "mkdir -p data && mongod --dbpath=data/ --port=27017",
+    "mongo": "mkdir -p data && env-cmd ./.env ./scripts/start-mongo.sh",
     "mongo-shell": "mongo --host=127.0.0.1 --port=27017"
   },
   "keywords": [],
@@ -20,6 +20,7 @@
     "circular-buffer": "^1.0.2",
     "cryptocompare": "^0.1.0",
     "dotenv": "^4.0.0",
+    "env-cmd": "^5.1.0",
     "express": "^4.15.3",
     "mongodb": "^2.2.28",
     "node-fetch": "^1.7.1",

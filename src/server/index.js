@@ -5,6 +5,7 @@ import pug from 'pug';
 import path from 'path';
 import chalk from 'chalk';
 
+import config from '../config';
 import repo from '../AlertsRepository';
 import notifications from '../NotificationsManager';
 
@@ -84,6 +85,6 @@ export default function() {
   });
 
   // Starts the server
-  app.listen(3000);
+  app.listen(config.express_port);
   console.log(chalk.blue("\n\nServer listening on localhost:3000"));
 }

@@ -17,6 +17,9 @@ const config = () => {
       key: process.env.PUSHED_KEY,
       secret: process.env.PUSHED_SECRET,
     },
+
+    express_port: process.env.EXPRESS_PORT,
+    mongo_port: process.env.MONGO_PORT,
   };
 }
 
