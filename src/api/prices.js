@@ -1,6 +1,7 @@
 // api/bitcoin.js
 
 import cc from 'cryptocompare';
+import chalk from 'chalk';
 
 class PricesAPI {
   constructor(exchange) {
@@ -12,8 +13,12 @@ class PricesAPI {
 
   // Fetch from the prices from the API and update the object
   async refresh() {
-    let data = await cc.price('BTC', 'USD', { exchanges: this.exchange });
-    this.updateValue(data.USD);
+    try {
+      let data = await cc.price('BTC', 'USD', { exchanges: this.exchange });
+      this.updateValue(data.USD);
+    } catch(err) {
+      console.error(chalk.red("Couldn't reach Cryptocompare API"));
+    }
   }
 
   // Update all the internal values
