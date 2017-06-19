@@ -28,18 +28,22 @@ class AlertsRepository {
   /**
    * Insert an alert into the collection
    */
-  add(direction, threshold) {
+  add(direction, threshold, uid) {
     return new Promise((resolve, reject) => {
-      this.db.collection('alerts').insert({
-        direction,
-        threshold,
-        notified: false,
-        notified_when: undefined,
+      this.db.collection('users').update({
+        "_id": ObjectId(uid)
+      }, {
+        $push: {
+          alerts: {
+            direction,
+            threshold,
+            notified: false,
+            notified_when: undefined,
+          },
+        },
       }, (err, res) => {
-        if(err)
-          reject(err);
-        else
-          resolve(res.result.n > 0);
+        if(err) reject(err);
+        else resolve(res.result.n > 0);
       });
     });
   }
@@ -82,7 +86,7 @@ class AlertsRepository {
   /**
    * Return all the alerts
    */
-  async getAll() {
+  async getAllForUser(uid) {
     return new Promise((resolve, reject) => {
       this.db.collection('alerts').find({}).toArray((err, docs) => {
         if(err)

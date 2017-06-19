@@ -89,7 +89,7 @@ export default function() {
    */
   app.get('/', ensureLoggedIn, bindGlobals, async (req, res) => {
     let uid = req.session.uid;
-    let thresholds = await alertsRepo.getAll();
+    let thresholds = await alertsRepo.getAllForUser(uid);
     res.render('thresholds', { thresholds, price, exchange });
   });
 
@@ -99,8 +99,9 @@ export default function() {
   app.get('/add', ensureLoggedIn, bindGlobals, async (req, res) => {
     let direction = req.query.direction;
     let threshold = req.query.threshold;
+    let uid = req.session.uid;
 
-    if(direction && threshold && await alertsRepo.add(direction, threshold)) {
+    if(direction && threshold && await alertsRepo.add(direction, threshold, uid)) {
       console.log(chalk.green(`Alert added on ${direction} with threshold ${threshold}`));
       res.redirect('/');
     } else {
