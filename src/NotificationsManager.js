@@ -38,15 +38,14 @@ class NotificationsManager {
    * Return whether or not the user should be notified
    */
   thresholdCrossed(direction, threshold, delta, current) {
-    return delta > 0 && direction == 'rise' && current > threshold ||
-           delta < 0 && direction == 'fall' && current < threshold;
+    return direction == 'rise' && current > threshold ||
+           direction == 'fall' && current < threshold;
   }
 
   /**
    * Attempts to notify the user
    */
   notify(direction, threshold, current, pushed_id) {
-    console.log('notify: ' + pushed_id);
     this.api.send(this.buildEventMessage(direction, threshold, current), pushed_id);
   }
 
