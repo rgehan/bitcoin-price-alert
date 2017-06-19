@@ -59,6 +59,17 @@ class UsersRepository {
       });
     });
   }
+
+  /**
+   * Retrieve the pushed_id of an user
+   */
+  async getPushedId(uid) {
+    return this.db.collection('users').findOne({
+      _id: ObjectId(uid),
+    }, {
+      pushed_id: 1,
+    });
+  }
 }
 
 export default new UsersRepository;

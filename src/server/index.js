@@ -145,6 +145,9 @@ export default function() {
     res.send('Error while deleting a threshold');
   });
 
+  /**
+   * Alerts clearing route
+   */
   app.get('/clear', ensureLoggedIn, bindGlobals, async (req, res) => {
     const has = param => req.query.hasOwnProperty(param);
 
@@ -161,13 +164,25 @@ export default function() {
     res.redirect('/');
   });
 
+  /**
+   * Price update route (for the ui to refresh)
+   */
   app.get('/price', (req, res) => {
     res.send(JSON.stringify(price));
   });
 
-  app.get('/test-push', ensureLoggedIn, (req, res) => {
-    notifications.rawSend('This is a test notification');
-    res.redirect('/');
+  /**
+   * Test push notification. See if everything works
+   */
+  app.get('/test-push', ensureLoggedIn, async (req, res) => {
+    try {
+      let { pushed_id } = await usersRepo.getPushedId(req.session.uid);
+      notifications.rawSend('This is a test notification', pushed_id);
+
+      res.redirect('/');
+    } catch (err) {
+      res.send("Cannot send push notification");
+    }
   });
 
   // Starts the server

@@ -45,6 +45,7 @@ class PushedAPI {
       }
 
       console.error(chalk.red("Pushed API error: " + error_message));
+      console.log("Request options: ", options);
       return false;
     }
   }
