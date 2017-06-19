@@ -112,7 +112,7 @@ class AlertsRepository {
    */
   async clearNotified() {
     return new Promise((resolve, reject) => {
-      this.db.collection('alerts').deleteOne({ notified: true }, (err, res) => {
+      this.db.collection('alerts').deleteMany({ notified: true }, (err, res) => {
         if(err)
           reject(err);
         else
