@@ -91,8 +91,6 @@ export default function() {
     let uid = req.session.uid;
     let { alerts } = await alertsRepo.getAllForUser(uid);
 
-    console.log(alerts)
-
     res.render('thresholds', { alerts, price, exchange });
   });
 
@@ -117,8 +115,9 @@ export default function() {
    */
   app.get('/remove', ensureLoggedIn, bindGlobals, async (req, res) => {
     let id = req.query.id;
+    let uid = req.session.uid;
 
-    if(id && await alertsRepo.remove(id)) {
+    if(id && await alertsRepo.remove(uid, id)) {
       console.log(chalk.green(`Removed alert ${id}`));
       return res.redirect('/');
     }

@@ -35,6 +35,7 @@ class AlertsRepository {
       }, {
         $push: {
           alerts: {
+            _id: ObjectId(),
             direction,
             threshold,
             notified: false,
@@ -51,13 +52,19 @@ class AlertsRepository {
   /**
    * Delete an alert by id
    */
-  remove(id) {
+  remove(uid, id) {
     return new Promise((resolve, reject) => {
-      this.db.collection('alerts').deleteOne({ _id: ObjectId(id) }, (err, res) => {
-        if(err)
-          reject(err);
-        else
-          resolve(res.result.n > 0);
+      this.db.collection('users').update({
+        _id: ObjectId(uid)
+      }, {
+        $pull: {
+          alerts: {
+            _id: ObjectId(id),
+          }
+        }
+      }, (err, res) => {
+        if(err) reject(err);
+        else resolve(res.result.n);
       });
     });
   }

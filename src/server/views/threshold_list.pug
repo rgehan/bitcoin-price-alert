@@ -5,13 +5,13 @@ table.table.table-striped
     th Threshold value
     th Notified when?
     th
-  each t in alerts
+  each a in alerts
     tr
-      td!= t.direction
-      td  $#{t.threshold}
-      td!= t.date_notified
+      td!= a.direction
+      td  $#{a.threshold}
+      td!= a.date_notified
       td
-        a(href="/remove?id=" + t._id) Remove
+        a(href="/remove?id=" + a._id) Remove
 
 .text-center
   a.btn.btn-warning(href='/clear?inactive') Clear inactive
