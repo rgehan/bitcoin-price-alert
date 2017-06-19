@@ -85,6 +85,24 @@ export default function() {
   });
 
   /**
+   * Register routes
+   */
+  app.get('/register', bindGlobals, (req, res) => {
+    res.render('register');
+  });
+
+  app.post('/register', bindGlobals, async (req, res) => {
+    let { username, password, confirm, pushed_id } = req.body;
+
+    if(username && password && password == confirm && pushed_id) {
+      await usersRepo.add(username, password, pushed_id);
+      res.redirect('/login');
+    } else {
+      res.redirect('/register');
+    }
+  })
+
+  /**
    * Thresholds listing route
    */
   app.get('/', ensureLoggedIn, bindGlobals, async (req, res) => {

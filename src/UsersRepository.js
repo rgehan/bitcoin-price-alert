@@ -26,11 +26,13 @@ class UsersRepository {
   /**
    * Adds an user
    */
-  async add(username, password) {
+  async add(username, password, pushed_id) {
     return new Promise((resolve, reject) => {
       this.db.collection('users').insert({
         username,
-        password
+        password,
+        pushed_id,
+        alerts: [],
       }, (err, res) => {
         if(err)
           reject(err);
