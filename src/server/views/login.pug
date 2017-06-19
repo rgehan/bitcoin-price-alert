@@ -1,0 +1,14 @@
+extends layout.pug
+
+block content
+  form(action="/login" method="POST")
+    label.form-label(for="login") Login
+    input.form-control(type="text" name="login" id="login")
+    
+    label.form-label(for="password") Password
+    input.form-control(type="password" name="password" id="password")
+
+    br
+
+    .text-center
+      input.btn.btn-primary(type="submit" value="Login")

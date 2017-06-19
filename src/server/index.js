@@ -25,6 +25,13 @@ export default function() {
   app.set('views', path.join(__dirname, '/views'));
 
   /**
+   * Login route
+   */
+  app.get('/login', async (req, res) => {
+    res.render('login');
+  });
+
+  /**
    * Thresholds listing route
    */
   app.get('/', async (req, res) => {
