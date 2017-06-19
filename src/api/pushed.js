@@ -31,14 +31,20 @@ class PushedAPI {
       },
     };
 
-    console.log('Notification sent: ', options);
-
     try {
       let res = await rp(options);
-      console.log(res);
       return true;
     } catch(err) {
-      console.error(chalk.red(err));
+
+      // Attemps to parse the error from JSON
+      let error_message;
+      try {
+        error_message = JSON.parse(err.error).error.message;
+      } catch (_) { // Fallbacks to string conversion
+        error_message = err;
+      }
+
+      console.error(chalk.red("Pushed API error: " + error_message));
       return false;
     }
   }
