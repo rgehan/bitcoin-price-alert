@@ -128,11 +128,13 @@ export default function() {
   app.get('/clear', ensureLoggedIn, bindGlobals, async (req, res) => {
     const has = param => req.query.hasOwnProperty(param);
 
+    let uid = req.session.uid;
+
     if(has('inactive')) {
-      alertsRepo.clearNotified();
+      alertsRepo.clearNotified(uid);
       console.log(chalk.green(`Cleared all expired alerts`));
     } else if(has('all')) {
-      alertsRepo.clearAll();
+      alertsRepo.clearAll(uid);
       console.log(chalk.green('Cleared all alerts'));
     }
 

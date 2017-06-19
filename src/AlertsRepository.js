@@ -119,13 +119,19 @@ class AlertsRepository {
   /**
    * Clear the alerts that were already notified
    */
-  async clearNotified() {
+  async clearNotified(uid) {
     return new Promise((resolve, reject) => {
-      this.db.collection('alerts').deleteMany({ notified: true }, (err, res) => {
-        if(err)
-          reject(err);
-        else
-          resolve(res.result.n);
+      this.db.collection('users').update({
+        _id: ObjectId(uid)
+      }, {
+        $pull: {
+          alerts: {
+            notified: true,
+          }
+        }
+      }, (err, res) => {
+        if(err) reject(err);
+        else resolve(res.result.n);
       });
     });
   }
@@ -133,13 +139,17 @@ class AlertsRepository {
   /**
    * Clear the alerts
    */
-  async clearAll() {
+  async clearAll(uid) {
     return new Promise((resolve, reject) => {
-      this.db.collection('alerts').deleteMany({}, (err, res) => {
-        if(err)
-          reject(err);
-        else
-          resolve(res.result.n);
+      this.db.collection('users').update({
+        _id: ObjectId(uid)
+      }, {
+        $pull: {
+          alerts: {}
+        }
+      }, (err, res) => {
+        if(err) reject(err);
+        else resolve(res.result.n);
       });
     });
   }
