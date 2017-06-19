@@ -1,6 +1,7 @@
 // api/pushed.js
 
 import fetch from 'node-fetch';
+import chalk from 'chalk';
 
 global.fetch = fetch;
 import rp from 'request-promise';
@@ -12,11 +13,11 @@ class PushedAPI {
   }
 
   async send(msg, pushed_id = null) {
-
-    let userOptions = pushed_id ? {} : {
-      target_type: 'user_pushed_id',
+    let userOptions = pushed_id ? {
+      target_type: 'pushed_id',
+      target_alias: 'alias',
       pushed_id,
-    };
+    } : {};
 
     let options = {
       method: 'POST',
@@ -30,10 +31,14 @@ class PushedAPI {
       },
     };
 
+    console.log('Notification sent: ', options);
+
     try {
       let res = await rp(options);
+      console.log(res);
       return true;
     } catch(err) {
+      console.error(chalk.red(err));
       return false;
     }
   }

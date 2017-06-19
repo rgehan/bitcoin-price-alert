@@ -103,7 +103,8 @@ class AlertsRepository {
           threshold: '$alerts.threshold',
           notified: '$alerts.notified',
           notified_when: '$alerts.notified_when',
-          parent_id: '$_id'
+          parent_id: '$_id',
+          pushed_id: '$pushed_id'
         }
       }, {
         $match: {
@@ -130,7 +131,8 @@ class AlertsRepository {
           threshold: '$alerts.threshold',
           notified: '$alerts.notified',
           notified_when: '$alerts.notified_when',
-          parent_id: '$_id'
+          parent_id: '$_id',
+          pushed_id: '$pushed_id'
         }
       }, {
         $match: {

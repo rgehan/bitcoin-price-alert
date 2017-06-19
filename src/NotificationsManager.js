@@ -26,9 +26,9 @@ class NotificationsManager {
   async handlePriceChange(current, delta) {
     let thresholds = await this.alertsRepo.getActive();
 
-    thresholds.forEach(({_id, direction, threshold, parent_id }) => {
+    thresholds.forEach(({_id, direction, threshold, parent_id, pushed_id }) => {
       if(this.thresholdCrossed(direction, threshold, delta, current)) {
-        this.notify(direction, threshold, current);
+        this.notify(direction, threshold, current, pushed_id);
         this.alertsRepo.markNotified(parent_id, _id);
       }
     });
@@ -45,15 +45,16 @@ class NotificationsManager {
   /**
    * Attempts to notify the user
    */
-  notify(direction, threshold, current) {
-    this.rawSend(this.buildEventMessage(direction, threshold, current));
+  notify(direction, threshold, current, pushed_id) {
+    console.log('notify: ' + pushed_id);
+    this.api.send(this.buildEventMessage(direction, threshold, current), pushed_id);
   }
 
   /**
    * Sends a string via Pushed
    */
-  rawSend(msg) {
-    this.api.send(msg);
+  rawSend(msg, pushed_id = null) {
+    this.api.send(msg, pushed_id);
   }
 
   /**
