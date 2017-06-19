@@ -80,7 +80,7 @@ export default function() {
     if(users.length) {
       req.session.uid = users[0]._id;
       req.session.username = users[0].username;
-      res.redirect('/');
+      return res.redirect('/');
     }
 
     res.redirect('/login');
