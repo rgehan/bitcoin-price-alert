@@ -31,6 +31,8 @@ export default function() {
   // Enable sessions
   app.use(session({
     secret: config.secret,
+    resave: false,
+    saveUninitialized: false,
   }));
 
   // Setup view engine
