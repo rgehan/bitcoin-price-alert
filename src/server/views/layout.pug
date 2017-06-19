@@ -35,6 +35,10 @@ html
           span.spacer
           a.btn.btn-default(href="/test-push") Test push
         hr
+          
+        if session.isLoggedIn
+          .text-right
+            span Logged in as: #{session.username}
         
         div.text-center  
           h1.price

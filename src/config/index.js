@@ -20,6 +20,8 @@ const config = () => {
 
     express_port: process.env.EXPRESS_PORT,
     mongo_port: process.env.MONGO_PORT,
+
+    secret: process.env.SECRET, 
   };
 }
 
