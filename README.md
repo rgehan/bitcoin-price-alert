@@ -29,9 +29,12 @@ npm install # or yarn install
 In order to be able to send notifications, you have to apply for a [Pushed API developper access](https://pushed.co/for-developers).
 
 Create an app, get your app key and your app secret and create your `.env` file:
-```bash
-  echo "PUSHED_KEY=[your key]" >> .env;
-  echo "PUSHED_SECRET=[your secret]" >> .env;
+```dotenv
+  PUSHED_KEY=[your Pushed key]
+  PUSHED_SECRET=[your Pushed secret]
+  EXPRESS_PORT=3000
+  MONGO_PORT=27017
+  SECRET=[secret for the sessions]
 ```
 
 ## Usage
@@ -46,11 +49,20 @@ npm start # or yarn start
 # The server is normally listening on port 3000
 ```
 
+## Scripts
+A few scripts are available:
+* `build`: Delete previously compiled files and re-babel-ize the source code
+* `debug`: Equivalent to `start`, but starts the application with the `--inspect` flag, allowing you to debug the application with the Chrome DevTools
+* `mongo-shell`: Starts a MongoDB shell connected to the database
+
+**Troubleshooting**: If a script fails to launch, you might want to perform the following actions:
+```bash
+chmod +x ./scripts/start-mongo.sh
+chmod +x ./scripts/start-mongo-shell.sh
+```
+
 ## Todo
 
 * Make everything configurable
   * The exchange that is watched
-  * The port mongo runs on
-  * The port the app runs on
 * Add multi-exchange support
-* Add multi-user support

@@ -9,7 +9,7 @@
     "start": "npm run build && node dist/index.js",
     "debug": "npm run build && node --inspect dist/index.js",
     "mongo": "mkdir -p data && env-cmd ./.env ./scripts/start-mongo.sh",
-    "mongo-shell": "mongo --host=127.0.0.1 --port=27017"
+    "mongo-shell": "env-cmd ./.env ./scripts/start-mongo-shell.sh"
   },
   "keywords": [],
   "author": "",
