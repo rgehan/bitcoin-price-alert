@@ -89,7 +89,7 @@ export default function() {
    */
   app.get('/', ensureLoggedIn, bindGlobals, async (req, res) => {
     let uid = req.session.uid;
-    let { alerts } = await alertsRepo.getAllForUser(uid);
+    let alerts = await alertsRepo.getAllForUser(uid);
 
     res.render('thresholds', { alerts, price, exchange });
   });

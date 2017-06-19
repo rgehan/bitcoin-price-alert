@@ -72,33 +72,47 @@ class AlertsRepository {
   /**
    * Mark an alert as notified
    */
-  markNotified(id) {
+  markNotified(uid, id) {
     return new Promise((resolve, reject) => {
-      this.db.collection('alerts').update({
-        _id: ObjectId(id)
+      this.db.collection('users').update({
+          "_id": ObjectId(uid),
+          "alerts._id": ObjectId(id)
       }, {
-        $set: {
-          notified: true,
-          date_notified: new Date
-        }
-      }, null, (err, res) => {
-        if(err)
-          reject(err);
-        else
-          resolve(res.result.n);
+          $set: {
+              "alerts.$.notified": true,
+              "alerts.$.notified_when": new Date
+          },
+      }, (err, res) => {
+        if(err) reject(err);
+        else resolve(res.result.n);
       });
-    })
+    });
   }
 
   /**
    * Return all the alerts
    */
   async getAllForUser(uid) {
-    return this.db.collection('users').findOne({
-      _id: ObjectId(uid)
-    }, {
-      _id: 0,
-      alerts: 1
+    return new Promise((resolve, reject) => {
+      this.db.collection('users').aggregate({
+        $unwind: '$alerts'
+      }, {
+        $project: {
+          _id: '$alerts._id',
+          direction: '$alerts.direction',
+          threshold: '$alerts.threshold',
+          notified: '$alerts.notified',
+          notified_when: '$alerts.notified_when',
+          parent_id: '$_id'
+        }
+      }, {
+        $match: {
+          parent_id: ObjectId(uid),
+        }
+      }, (err, docs) => {
+        if(err) reject(err);
+        else resolve(docs);
+      });
     });
   }
 
@@ -107,11 +121,24 @@ class AlertsRepository {
    */
   async getActive() {
     return new Promise((resolve, reject) => {
-      this.db.collection('alerts').find({ notified: false }).toArray((err, docs) => {
-        if(err)
-          reject(err);
-        else
-          resolve(docs);
+      this.db.collection('users').aggregate({
+        $unwind: '$alerts'
+      }, {
+        $project: {
+          _id: '$alerts._id',
+          direction: '$alerts.direction',
+          threshold: '$alerts.threshold',
+          notified: '$alerts.notified',
+          notified_when: '$alerts.notified_when',
+          parent_id: '$_id'
+        }
+      }, {
+        $match: {
+          notified: false,
+        },
+      }, (err, docs) => {
+        if(err) reject(err);
+        else resolve(docs);
       });
     });
   }

@@ -11,7 +11,7 @@ class NotificationsManager {
    */
   constructor() {
     // The list of the threshold we can cross
-    this.thresholdsRepo = AlertsRepository;
+    this.alertsRepo = AlertsRepository;
 
     // Build the Pusher API
     this.api = new PushedAPI({
@@ -24,14 +24,12 @@ class NotificationsManager {
    * On price change, check if a threshold is crossed
    */
   async handlePriceChange(current, delta) {
-    let thresholds = await this.thresholdsRepo.getActive();
+    let thresholds = await this.alertsRepo.getActive();
 
-    // console.log("Handling: " + thresholds.length);
-
-    thresholds.forEach(({_id, direction, threshold }) => {
+    thresholds.forEach(({_id, direction, threshold, parent_id }) => {
       if(this.thresholdCrossed(direction, threshold, delta, current)) {
         this.notify(direction, threshold, current);
-        this.thresholdsRepo.markNotified(_id);
+        this.alertsRepo.markNotified(parent_id, _id);
       }
     });
   }
