@@ -87,13 +87,11 @@ class AlertsRepository {
    * Return all the alerts
    */
   async getAllForUser(uid) {
-    return new Promise((resolve, reject) => {
-      this.db.collection('alerts').find({}).toArray((err, docs) => {
-        if(err)
-          reject(err);
-        else
-          resolve(docs);
-      });
+    return this.db.collection('users').findOne({
+      _id: ObjectId(uid)
+    }, {
+      _id: 0,
+      alerts: 1
     });
   }
 

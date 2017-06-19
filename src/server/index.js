@@ -89,8 +89,11 @@ export default function() {
    */
   app.get('/', ensureLoggedIn, bindGlobals, async (req, res) => {
     let uid = req.session.uid;
-    let thresholds = await alertsRepo.getAllForUser(uid);
-    res.render('thresholds', { thresholds, price, exchange });
+    let { alerts } = await alertsRepo.getAllForUser(uid);
+
+    console.log(alerts)
+
+    res.render('thresholds', { alerts, price, exchange });
   });
 
   /**

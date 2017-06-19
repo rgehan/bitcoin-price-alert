@@ -5,7 +5,7 @@ table.table.table-striped
     th Threshold value
     th Notified when?
     th
-  each t in thresholds
+  each t in alerts
     tr
       td!= t.direction
       td  $#{t.threshold}
