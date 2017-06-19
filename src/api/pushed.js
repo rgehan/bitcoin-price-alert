@@ -11,7 +11,13 @@ class PushedAPI {
     this.secret = secret;
   }
 
-  async send(msg) {
+  async send(msg, pushed_id = null) {
+
+    let userOptions = pushed_id ? {} : {
+      target_type: 'user_pushed_id',
+      pushed_id,
+    };
+
     let options = {
       method: 'POST',
       uri: 'https://api.pushed.co/1/push',
@@ -20,6 +26,7 @@ class PushedAPI {
         app_secret: this.secret,
         target_type: 'app',
         content: msg,
+        ...userOptions
       },
     };
 
