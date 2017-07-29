@@ -18,10 +18,16 @@ const config = () => {
       secret: process.env.PUSHED_SECRET,
     },
 
+    particle: {
+      username: process.env.PARTICLE_USERNAME,
+      password: process.env.PARTICLE_PASSWORD,
+      deviceId: process.env.PARTICLE_DEVICE_ID,
+    },
+
     express_port: process.env.EXPRESS_PORT,
     mongo_port: process.env.MONGO_PORT,
 
-    secret: process.env.SECRET, 
+    secret: process.env.SECRET,
   };
 }
 
